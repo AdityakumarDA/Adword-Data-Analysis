@@ -20,7 +20,7 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 - [🧹 Excel + Python Processing](#-excel--python-processing)
 - [🗂️ Lookup & Fact Tables Description](#-Lookup-&-Fact-Tables-Description)
 - [🗃️ SQL Schema & Relationships](#️-sql-schema--relationships)
-- [🧠 Relationship Diagram (EER)](#-Relationship-Diagram-(-EER-)-)
+- [🧠 Relationship Diagram (EER)](#-Relationship-Diagram-(EER)-)
 - [📈 Power BI Dashboard](#-power-bi-dashboard)
 - [🧩 Power BI Data Model View](#-power-bi-data-model-view)
 - [⚙️ How to Use This Project](#️-how-to-use-this-project)
