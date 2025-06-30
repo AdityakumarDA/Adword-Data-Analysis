@@ -1,9 +1,9 @@
 # Adword-Data-Analysis
 
-![Python Version](https://img.shields.io/badge/Python-3.9-blue)
-![MySQL](https://img.shields.io/badge/Database-MySQL-informational)
-![Power BI](https://img.shields.io/badge/Visualization-Power_BI-yellow)
-![License](https://img.shields.io/badge/License-MIT-blue)
+[![Python Version](https://img.shields.io/badge/Python-3.9-blue)](https://www.python.org/)
+[![MySQL](https://img.shields.io/badge/Database-MySQL-informational)](https://www.mysql.com/)
+[![Power BI](https://img.shields.io/badge/Visualization-Power_BI-yellow)](https://www.microsoft.com/en-us/power-platform/products/power-bi)
+[![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/AdityakumarDA/Adword-Data-Analysis/tree/main?tab=MIT-1-ov-file)
 
 A complete, real-world AdWords Data Analysis pipeline from raw Excel to fully interactive dashboards using **Excel**, **Python (pandas)**, **MySQL**, and **Power BI**.
 
@@ -14,21 +14,34 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 ## 📘 Table of Contents
 
 - [🎯 Project Objective](#-project-objective)
+- [📌 Business Objective](#-Business-Objective)
 - [📊 Tools & Technologies](#-tools--technologies)
 - [🔁 End-to-End Workflow](#-end-to-end-workflow)
 - [🧹 Excel + Python Processing](#-excel--python-processing)
 - [🗃️ SQL Schema & Relationships](#️-sql-schema--relationships)
 - [🧠 EER Diagram](#-eer-diagram)
 - [📈 Power BI Dashboard](#-power-bi-dashboard)
+- [🧩 Power BI Data Model View](#-power-bi-data-model-view)
 - [⚙️ How to Use This Project](#️-how-to-use-this-project)
 - [📂 Repository Structure](#-repository-structure)
 - [📝 License](#-license)
+- [📬 About Me](#about-me)
 
 ---
 
 ## 🎯 Project Objective
 
 This project analyzes Google AdWords traffic data with the goal of uncovering performance trends, keyword effectiveness, and cost dynamics. It simulates a **real-life advertising analytics pipeline**, commonly used in marketing and digital performance teams.
+
+---
+
+## 📌 Business Objective
+
+To help marketing teams and decision-makers:
+- Monitor campaign performance
+- Identify high-performing and low-performing keywords
+- Track search demand and cost trends over time
+- Visualize performance KPIs via intuitive dashboards
 
 ---
 
@@ -45,14 +58,12 @@ This project analyzes Google AdWords traffic data with the goal of uncovering pe
 
 ## 🔁 End-to-End Workflow
 
-```
-Raw Excel (.xlsx)
-   ↓
-Python (assign IDs, transform, create CSVs)
-   ↓
-MySQL (schema creation, primary/foreign keys)
-   ↓
-Power BI (DAX, relationships, dashboard)
+```mermaid
+graph LR
+    A[Raw Excel] --> B[Excel Formulas]
+    B --> C[Python Script]
+    C --> D[MySQL Database]
+    D --> E[Power BI Dashboard]
 ```
 
 Each stage builds on the last. The result is a smooth, production-style pipeline from messy input to insights.
@@ -64,6 +75,8 @@ Each stage builds on the last. The result is a smooth, production-style pipeline
 ### ✅ Step 1: Raw Data (Raw_data.xlsx)
 - Contains columns like `title`, `keyword`, `positions`, `traffic`, `CPC`, etc.
 - This is the simulated export from Google AdWords.
+
+![Raw Excel Data](images/raw_excel_sample.png)
 
 ### ✅ Step 2: Assigning Keyword IDs with Python
 Using `pandas`, we:
@@ -80,12 +93,22 @@ Created three new CSVs:
 - `search_volume.csv`: Total volume using `SUMIF`.
 - `keyword_difficulty.csv`: Average difficulty using `AVERAGEIF`.
 
-Also used this formula in Excel to flag difficulty:
-```excel
-=IF(B2>=50,"Hard","Moderate")
-```
 
-These CSVs form lookup/reference tables for later use in SQL.
+These were calculated using **Excel formulas**:
+
+
+| Formula | Purpose |
+|--------|---------|
+| `SUMIF()` | Aggregate total search volume |
+| `AVERAGEIF()` | Compute average difficulty |
+| `IF(B2>=50,"Hard","Moderate")` | Assign difficulty label |
+| `VLOOKUP()` | Lookup keyword metadata |
+| `=IF(B2>=50,"Hard","Moderate")` | Used this formula in Excel to flag difficulty |
+
+
+✅ These tables act as lookup/reference tables for SQL.
+
+![Excel Lookup Tables](images/excel_lookup_tables.png)
 
 ---
 
@@ -122,7 +145,7 @@ CREATE TABLE website_traffic_data (
 
 ### 🔑 Keys & Normalization
 
-We imported the other CSVs into MySQL:
+Imported the other CSVs into MySQL:
 - `keyword`
 - `search_volume`
 - `keyword_difficulty`
@@ -140,10 +163,10 @@ These keys ensure consistent data joins between tables.
 ## 🧠 EER Diagram
 
 ### 📘 Schema Screenshot
-![Schema Screenshot](68159bd6-a58b-42e7-8934-b2809087d9e7.png)
+![Schema Screenshot](SQL_Database.png)
 
 ### 📘 Relationship Diagram (EER)
-![EER Diagram](0f2806fa-c76d-4052-81d0-ebf3f9c87ebc.png)
+![EER Diagram](EER.png)
 
 These diagrams visualize the 1-to-many relationships between:
 - Keywords → Traffic Data
@@ -163,6 +186,8 @@ Connected Power BI to MySQL database and created an interactive dashboard.
 - **Treemap**: Search Volume by Keyword
 - **Pie/Donut**: Traffic by Difficulty, by Month
 - **Slicers**: Year, Quarter, Keyword filter
+
+![Power BI Dashboard](images/power_bi_dashboard.png)
 
 ### 🔢 DAX Measures
 ```DAX
@@ -186,11 +211,29 @@ These enable filtering, aggregation, and time-based visualizations.
 
 ---
 
+## 🧩 Power BI Data Model View
+
+To enable seamless slicing and aggregation, a clean star schema was created in Power BI.
+
+### Relationships:
+- Fact: `website_traffic_data`
+- Dimensions:
+  - `keyword` (via keyword_ID)
+  - `keyword_difficulty`
+  - `search_volume`
+
+✅ This model ensures accurate filtering and joins.
+
+![Power BI Data Model](images/powerbi_data_model.png)
+
+
+---
+
 ## ⚙️ How to Use This Project
 
 ### 🔹 1. Clone the Repo
 ```bash
-git clone https://github.com/your-username/Adword-Data-Analysis.git
+git clone https://github.com/AdityakumarDA/Adword-Data-Analysis.git
 ```
 
 ### 🔹 2. Open Excel Files
@@ -210,16 +253,23 @@ git clone https://github.com/your-username/Adword-Data-Analysis.git
 ## 📂 Repository Structure
 
 ```
-├── Raw_data.xlsx
-├── website_traffic_data.csv
-├── keyword.csv
-├── keyword_difficulty.csv
-├── search_volume.csv
-├── Traffic Data SQL script.sql
-├── Traffic Project dashboard.pbix
-├── 68159bd6...schema.png
-├── 0f2806fa...eer_diagram.png
-└── README.md
+📦 Adword-Data-Analysis
+ ┣ 📄 Raw_data.xlsx
+ ┣ 📄 website_traffic_data.csv
+ ┣ 📄 keyword.csv
+ ┣ 📄 keyword_difficulty.csv
+ ┣ 📄 search_volume.csv
+ ┣ 📄 Traffic Data SQL script.sql
+ ┣ 📄 Traffic Project dashboard.pbix
+ ┣ 📁 images
+ ┃ ┣ 📷 raw_excel_sample.png
+ ┃ ┣ 📷 excel_lookup_tables.png
+ ┃ ┣ 📷 mysql_schema_editor.png
+ ┃ ┣ 📷 EER_Diagram.png
+ ┃ ┣ 📷 power_bi_dashboard.png
+ ┃ ┗ 📷 powerbi_data_model.png
+ ┣ 📄 LICENSE
+ ┗ 📄 README.md
 ```
 
 ---
@@ -227,6 +277,18 @@ git clone https://github.com/your-username/Adword-Data-Analysis.git
 ## 📝 License
 
 This project is licensed under the **MIT License** — you are free to use, modify, and share with attribution.
+
+---
+
+## 📬 About Me
+
+I'm **Aditya Rajput**, a data analyst passionate about storytelling with data, unsupervised learning, and real-world analytics.
+
+- [LinkedIn](https://www.linkedin.com/in/adityakumarda/)  
+- [GitHub](https://github.com/AdityakumarDA)  
+- [Tableau Public](https://public.tableau.com/app/profile/adityakumarda)
+
+If you liked this project, please ⭐ the repo!
 
 ---
 
