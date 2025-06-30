@@ -262,7 +262,10 @@ git clone https://github.com/AdityakumarDA/Adword-Data-Analysis.git
  ┣ 📄 Traffic Project dashboard.pbix
  ┣ 📁 images
  ┃ ┣ 📷 raw_excel_sample.png
- ┃ ┣ 📷 excel_lookup_tables.png
+ ┃ ┣ 📷 excel_lookup_table_1.png
+ ┃ ┣ 📷 excel_lookup_tables_2png
+ ┃ ┣ 📷 excel_lookup_table_3.png
+ ┃ ┣ 📷 main_table.png
  ┃ ┣ 📷 mysql_schema_editor.png
  ┃ ┣ 📷 EER_Diagram.png
  ┃ ┣ 📷 power_bi_dashboard.png
