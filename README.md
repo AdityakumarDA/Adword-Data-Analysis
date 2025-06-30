@@ -103,7 +103,6 @@ These were calculated using **Excel formulas**:
 | `AVERAGEIF()` | Compute average difficulty |
 | `IF(B2>=50,"Hard","Moderate")` | Assign difficulty label |
 | `VLOOKUP()` | Lookup keyword metadata |
-| `=IF(B2>=50,"Hard","Moderate")` | Used this formula in Excel to flag difficulty |
 
 
 ✅ These tables act as lookup/reference tables for SQL.
