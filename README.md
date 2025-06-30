@@ -18,8 +18,9 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 - [📊 Tools & Technologies](#-tools--technologies)
 - [🔁 End-to-End Workflow](#-end-to-end-workflow)
 - [🧹 Excel + Python Processing](#-excel--python-processing)
+- [🗂️ Lookup & Fact Tables Description](#-Lookup-&-Fact-Tables-Description)
 - [🗃️ SQL Schema & Relationships](#️-sql-schema--relationships)
-- [🧠 EER Diagram](#-eer-diagram)
+- [🧠 Relationship Diagram (EER)](#-Relationship-Diagram-(EER)-)
 - [📈 Power BI Dashboard](#-power-bi-dashboard)
 - [🧩 Power BI Data Model View](#-power-bi-data-model-view)
 - [⚙️ How to Use This Project](#️-how-to-use-this-project)
@@ -76,7 +77,7 @@ Each stage builds on the last. The result is a smooth, production-style pipeline
 - Contains columns like `title`, `keyword`, `positions`, `traffic`, `CPC`, etc.
 - This is the simulated export from Google AdWords.
 
-![Raw Excel Data](images/raw_excel_sample.png)
+![Raw Excel Data](Images/raw_excel_sample.png)
 
 ### ✅ Step 2: Assigning Keyword IDs with Python
 Using `pandas`, we:
@@ -104,10 +105,89 @@ These were calculated using **Excel formulas**:
 | `IF(B2>=50,"Hard","Moderate")` | Assign difficulty label |
 | `VLOOKUP()` | Lookup keyword metadata |
 
-
 ✅ These tables act as lookup/reference tables for SQL.
 
-![Excel Lookup Tables](images/excel_lookup_tables.png)
+
+---
+
+## 🗂️ Lookup & Fact Tables Description
+
+#### 🔹 `keyword.csv`
+This table contains a deduplicated list of all unique keywords with their assigned `keyword_ID`.
+
+| Column Name  | Description                                                  |
+|--------------|--------------------------------------------------------------|
+| `keyword_ID` | Unique identifier for each keyword (used as primary key)     |
+| `keyword`    | Actual keyword text, fetched from raw data using `VLOOKUP`   |
+
+✅ Created using Excel's `VLOOKUP` function to map keywords with their IDs.
+
+
+![Excel Lookup Tables](Images/excel_lookup_table_1.png)
+
+
+---
+
+#### 🔹 `search_volume.csv`
+This table includes the total monthly search volume per keyword.
+
+| Column Name      | Description                                                        |
+|------------------|--------------------------------------------------------------------|
+| `keyword_ID`     | Foreign key that links to the `keyword.csv` table                  |
+| `search_volume`  | Monthly search volume, aggregated using Excel’s `SUMIF` function   |
+
+✅ Created using `SUMIF` to calculate the total search volume for each keyword ID.
+
+
+![Excel Lookup Tables](Images/excel_lookup_table_3.png)
+
+
+---
+
+#### 🔹 `keyword_difficulty.csv`
+This table stores the average keyword difficulty score along with a difficulty level label.
+
+| Column Name         | Description                                                                      |
+|---------------------|----------------------------------------------------------------------------------|
+| `keyword_ID`         | Foreign key linking to the `keyword.csv` table                                   |
+| `avg_difficulty`     | Average difficulty score, calculated using `AVERAGEIF`                           |
+| `difficulty_level`   | Text label derived using Excel's `IF` function (e.g., `"Hard"` if ≥ 50)          |
+
+✅ Created using:
+- `AVERAGEIF` to compute average difficulty per `keyword_ID`
+- `IF` to categorize as `"Hard"` or `"Moderate"`
+
+![Excel Lookup Tables](Images/excel_lookup_table_2.png)
+
+
+---
+
+#### 🔸 `website_traffic_data.csv` (Main Fact Table)
+This table holds all enriched AdWords metrics after processing.
+
+| Column Name             | Description                                               |
+|--------------------------|-----------------------------------------------------------|
+| `title`                 | Campaign or landing page title                             |
+| `keyword`               | Keyword string (linked via `keyword_ID`)                   |
+| `keyword_ID`            | Foreign key from `keyword.csv`, created using Python       |
+| `positions`             | Current average ad position                                |
+| `previous_positions`    | Previous average position                                  |
+| `last_seen`             | Last recorded impression/click date                        |
+| `search_volume`         | Total monthly searches                                     |
+| `CPC`                   | Cost-per-click (USD)                                       |
+| `Traffic`               | Estimated traffic from the keyword                         |
+| `Traffic_Percent`       | Percentage of total traffic                                |
+| `Traffic_Cost`          | Cost attributed to keyword traffic                         |
+| `Traffic_Cost_Percent`  | Percentage of total traffic cost                           |
+| `Competition`           | Keyword competition score (0–1 scale)                      |
+| `Number_of_Results`     | Total search engine results for the keyword                |
+| `Keyword_difficulty`    | Foreign key from `keyword_difficulty.csv`                  |
+
+✅ This is the central **fact table**, joined with all three lookup tables to support relational queries and visualizations.
+
+
+![Excel Lookup Tables](Images/main_table.png)
+
 
 ---
 
@@ -142,6 +222,12 @@ CREATE TABLE website_traffic_data (
 );
 ```
 
+
+### 📘 Schema Screenshot
+
+![Schema Screenshot](Images/mysql_schema_editor.png)
+
+
 ### 🔑 Keys & Normalization
 
 Imported the other CSVs into MySQL:
@@ -159,13 +245,9 @@ These keys ensure consistent data joins between tables.
 
 ---
 
-## 🧠 EER Diagram
+## 🧠 Relationship Diagram (EER)
 
-### 📘 Schema Screenshot
-![Schema Screenshot](SQL_Database.png)
-
-### 📘 Relationship Diagram (EER)
-![EER Diagram](EER.png)
+![EER Diagram](Images/EER_Diagram.png)
 
 These diagrams visualize the 1-to-many relationships between:
 - Keywords → Traffic Data
@@ -186,7 +268,7 @@ Connected Power BI to MySQL database and created an interactive dashboard.
 - **Pie/Donut**: Traffic by Difficulty, by Month
 - **Slicers**: Year, Quarter, Keyword filter
 
-![Power BI Dashboard](images/power_bi_dashboard.png)
+![Power BI Dashboard](Images/power_bi_dashboard.png)
 
 ### 🔢 DAX Measures
 ```DAX
@@ -223,7 +305,7 @@ To enable seamless slicing and aggregation, a clean star schema was created in P
 
 ✅ This model ensures accurate filtering and joins.
 
-![Power BI Data Model](images/powerbi_data_model.png)
+![Power BI Data Model](Images/powerbi_data_model.png)
 
 
 ---
