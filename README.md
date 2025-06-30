@@ -18,12 +18,12 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 - [📊 Tools & Technologies](#-tools--technologies)
 - [🔁 End-to-End Workflow](#-end-to-end-workflow)
 - [🧹 Excel + Python Processing](#-excel--python-processing)
-- [🗂️ Lookup & Fact Tables Description](#-lookup--fact-tables-description)
-- [🗃️ SQL Schema & Relationships](#-sql-schema--relationships)
+- [🗂 Lookup & Fact Tables Description](#-lookup--fact-tables-description)
+- [🗃 SQL Schema & Relationships](#-sql-schema--relationships)
 - [🧠 Relationship Diagram (EER)](#-relationship-diagram-eer)
 - [📈 Power BI Dashboard](#-power-bi-dashboard)
 - [🧩 Power BI Data Model View](#-power-bi-data-model-view)
-- [⚙️ How to Use This Project](#-how-to-use-this-project)
+- [⚙ How to Use This Project](#-how-to-use-this-project)
 - [📂 Repository Structure](#-repository-structure)
 - [📝 License](#-license)
 - [📬 About Me](#-about-me)
@@ -110,7 +110,7 @@ These were calculated using **Excel formulas**:
 
 ---
 
-## 🗂️ Lookup & Fact Tables Description
+## 🗂 Lookup & Fact Tables Description
 
 #### 🔹 `keyword.csv`
 This table contains a deduplicated list of all unique keywords with their assigned `keyword_ID`.
@@ -191,7 +191,7 @@ This table holds all enriched AdWords metrics after processing.
 
 ---
 
-## 🗃️ SQL Schema & Relationships
+## 🗃 SQL Schema & Relationships
 
 Created a MySQL database:  
 ```sql
@@ -310,7 +310,7 @@ To enable seamless slicing and aggregation, a clean star schema was created in P
 
 ---
 
-## ⚙️ How to Use This Project
+## ⚙ How to Use This Project
 
 ### 🔹 1. Clone the Repo
 ```bash
