@@ -25,7 +25,7 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 - [⚙️ How to Use This Project](#️-how-to-use-this-project)
 - [📂 Repository Structure](#-repository-structure)
 - [📝 License](#-license)
-- [📬 About Me](#about-me)
+- [📬 About Me](#-about-me)
 
 ---
 
