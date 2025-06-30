@@ -18,7 +18,7 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 - [📊 Tools & Technologies](#-tools--technologies)
 - [🔁 End-to-End Workflow](#-end-to-end-workflow)
 - [🧹 Excel + Python Processing](#-excel--python-processing)
-- [🗂️ Lookup & Fact Tables Description](#-lookup--fact-tables-description)
+- [🗂️ Lookup & Fact Tables Description](#-lookup-&-fact-tables-description)
 - [🗃️ SQL Schema & Relationships](#-sql-schema--relationships)
 - [🧠 Relationship Diagram (EER)](#-relationship-diagram-eer)
 - [📈 Power BI Dashboard](#-power-bi-dashboard)
